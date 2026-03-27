@@ -1,54 +1,0 @@
-2026-03-27T07:45:11.718Z INFO  VpnToggle: Current VPN state: disconnected
-2026-03-27T07:45:11.723Z INFO  VpnToggle: Connecting to: vpn.azg.jp/a-net_v2
-2026-03-27T07:45:12.303Z INFO  VpnToggle: Connect output: Cisco Secure Client (version 5.1.9.113) .
-
-Copyright (c) 2004 - 2025, Cisco Systems, Inc. All rights reserved.
-
-
-  >> state: 不明
-  >> state: 切断されました
-  >> state: 切断されました
-  >> notice: 接続する準備ができました
-VPN>   >> registered with local VPN subsystem.
-VPN>   >> contacting host (vpn.azg.jp/a-net_v2) for login information...
-  >> notice: vpn.azg.jp/a-net_v2に連絡しています。
-  >> error: 要求された認証タイプは、AnyConnectのCLIではサポートされていません。
-
-  >> The requested authentication type is not supported in AnyConnect CLI.
-2026-03-27T07:45:15.445Z INFO  VpnToggle: Poll 1: disconnected
-2026-03-27T07:45:37.006Z INFO  VpnToggle: Current VPN state: disconnected
-2026-03-27T07:45:37.008Z INFO  VpnToggle: Connecting to: vpn.azg.jp/a-net_v2
-2026-03-27T07:45:37.473Z INFO  VpnToggle: Connect output: Cisco Secure Client (version 5.1.9.113) .
-
-Copyright (c) 2004 - 2025, Cisco Systems, Inc. All rights reserved.
-
-
-  >> state: 不明
-  >> state: 切断されました
-  >> state: 切断されました
-  >> notice: 接続する準備ができました
-VPN>   >> registered with local VPN subsystem.
-VPN>   >> contacting host (vpn.azg.jp/a-net_v2) for login information...
-  >> notice: vpn.azg.jp/a-net_v2に連絡しています。
-  >> error: 要求された認証タイプは、AnyConnectのCLIではサポートされていません。
-
-  >> The requested authentication type is not supported in AnyConnect CLI.
-2026-03-27T07:45:40.615Z INFO  VpnToggle: Poll 1: disconnected
-2026-03-27T07:48:28.541Z INFO  VpnToggle: Current VPN state: disconnected
-2026-03-27T07:48:28.544Z INFO  VpnToggle: Connecting to: vpn.azg.jp/a-net_v2
-2026-03-27T07:48:28.819Z INFO  VpnToggle: Connect output: Cisco Secure Client (version 5.1.9.113) .
-
-Copyright (c) 2004 - 2025, Cisco Systems, Inc. All rights reserved.
-
-
-  >> state: 不明
-  >> state: 切断されました
-  >> state: 切断されました
-  >> notice: 接続する準備ができました
-VPN>   >> registered with local VPN subsystem.
-VPN>   >> contacting host (vpn.azg.jp/a-net_v2) for login information...
-  >> notice: vpn.azg.jp/a-net_v2に連絡しています。
-  >> error: 要求された認証タイプは、AnyConnectのCLIではサポートされていません。
-
-  >> The requested authentication type is not supported in AnyConnect CLI.
-2026-03-27T07:48:31.983Z INFO  VpnToggle: Poll 1: disconnected
