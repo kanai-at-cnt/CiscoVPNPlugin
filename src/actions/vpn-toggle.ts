@@ -10,9 +10,6 @@ import { getVpnStatus, connectVpn, disconnectVpn } from "./cisco-client";
 
 type ToggleSettings = {
   profile?: string;
-  username?: string;
-  password?: string;
-  secondPassword?: string;
 };
 
 const logger = streamDeck.logger.createScope("VpnToggle");
@@ -36,40 +33,38 @@ export class VpnToggleAction extends SingletonAction<ToggleSettings> {
   }
 
   override async onKeyDown(ev: KeyDownEvent<ToggleSettings>): Promise<void> {
-    const { profile = "", username, password, secondPassword } = ev.payload.settings;
-
+    const { profile = "" } = ev.payload.settings;
     if (!("setState" in ev.action)) return;
 
     const state = await getVpnStatus();
-    logger.info(`Current VPN state: ${state.status}`);
+    logger.info(`Current state: ${state.status}`);
 
     if (state.status === "connected") {
       await ev.action.setTitle("切断中...");
-      const ok = await disconnectVpn();
-      logger.info(`Disconnect result: ${ok}`);
+      const result = await disconnectVpn();
+      logger.info(`Disconnect: ${result.output}`);
+      if (!result.success) {
+        await ev.action.setTitle("Error");
+        await new Promise((r) => setTimeout(r, 3000));
+      }
     } else {
       if (!profile) {
         await ev.action.setTitle("No Profile");
         return;
       }
-
       await ev.action.setTitle("接続中...");
       logger.info(`Connecting to: ${profile}`);
-
-      const result = await connectVpn({ profile, username, password, secondPassword });
-      logger.info(`Connect output: ${result.output}`);
-
+      const result = await connectVpn(profile);
+      logger.info(`Connect: ${result.output}`);
       if (!result.success) {
-        // エラーの最後の行をボタンに表示 (短縮)
-        const lastLine = result.output.split("\n").filter(Boolean).pop() ?? "Error";
-        const shortMsg = lastLine.replace(/^.*error:\s*/i, "").slice(0, 30);
-        await ev.action.setTitle(shortMsg || "Error");
+        const msg = result.output.replace(/^Error:\s*/i, "").slice(0, 25);
+        await ev.action.setTitle(msg || "Error");
         logger.error(`Connect failed: ${result.output}`);
         await new Promise((r) => setTimeout(r, 4000));
       }
     }
 
-    // Poll until state changes (max 15 seconds)
+    // 状態が変わるまで最大15秒ポーリング
     for (let i = 0; i < 5; i++) {
       await new Promise((r) => setTimeout(r, 3000));
       const newState = await getVpnStatus();
@@ -83,7 +78,6 @@ export class VpnToggleAction extends SingletonAction<ToggleSettings> {
     actionRef: WillAppearEvent<ToggleSettings>["action"]
   ): Promise<void> {
     if (!("setState" in actionRef)) return;
-
     const state = await getVpnStatus();
     switch (state.status) {
       case "connected":

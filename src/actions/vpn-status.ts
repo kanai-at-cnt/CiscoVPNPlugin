@@ -10,9 +10,6 @@ import { getVpnStatus, connectVpn, disconnectVpn } from "./cisco-client";
 
 type StatusSettings = {
   profile?: string;
-  username?: string;
-  password?: string;
-  secondPassword?: string;
   pollInterval?: number;
 };
 
@@ -47,7 +44,7 @@ export class VpnStatusAction extends SingletonAction<StatusSettings> {
 
   // Touch tap: toggle VPN
   override async onTouchTap(ev: TouchTapEvent<StatusSettings>): Promise<void> {
-    const { profile = "", username, password, secondPassword } = ev.payload.settings;
+    const { profile = "" } = ev.payload.settings;
     const state = await getVpnStatus();
 
     if (state.status === "connected") {
@@ -59,7 +56,7 @@ export class VpnStatusAction extends SingletonAction<StatusSettings> {
         }
         return;
       }
-      await connectVpn({ profile, username, password, secondPassword });
+      await connectVpn(profile);
     }
 
     await new Promise((r) => setTimeout(r, 2000));
@@ -73,7 +70,7 @@ export class VpnStatusAction extends SingletonAction<StatusSettings> {
 
     const statusLine =
       state.status === "connected"
-        ? `Connected\n${state.profile ?? ""}`
+        ? `Connected\n${state.serverAddress ?? ""}`
         : state.status === "connecting"
         ? "Connecting..."
         : state.status === "disconnected"
