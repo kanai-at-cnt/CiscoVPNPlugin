@@ -124,24 +124,61 @@ export interface ConnectResult {
   output: string;
 }
 
+/** Cisco Secure Client GUI app name */
+const GUI_APP = "Cisco Secure Client";
+
+/** GUI が起動しているか確認 */
+async function isGuiRunning(): Promise<boolean> {
+  try {
+    const { stdout } = await execFileAsync("pgrep", ["-x", "Cisco Secure Client"]);
+    return stdout.trim().length > 0;
+  } catch {
+    return false;
+  }
+}
+
+/** GUI を終了する */
+async function quitGui(): Promise<void> {
+  try {
+    await execFileAsync("osascript", ["-e", `quit app "${GUI_APP}"`]);
+    // プロセスが完全に終了するまで待つ
+    await new Promise((r) => setTimeout(r, 1500));
+  } catch {
+    // 起動していなければ無視
+  }
+}
+
+/** GUI を起動する */
+async function launchGui(): Promise<void> {
+  try {
+    await execFileAsync("open", ["-a", GUI_APP]);
+  } catch {
+    // 無視
+  }
+}
+
 /**
  * Connect to VPN.
- * If username/password are provided, they are piped via stdin (-s mode).
- * For certificate-based or saved-credential profiles, leave them empty.
- * Returns full CLI output for debugging.
+ * Cisco Secure Client GUI が起動していると CLI が使えないため、
+ * GUI を一時終了 → CLI 接続 → GUI を再起動する。
  */
 export async function connectVpn(opts: ConnectOptions): Promise<ConnectResult> {
   const cli = await findVpnCli();
   if (!cli) return { success: false, output: "CLI not found" };
 
-  return new Promise((resolve) => {
+  // GUI が動いていたら終了する
+  const guiWasRunning = await isGuiRunning();
+  if (guiWasRunning) {
+    await quitGui();
+  }
+
+  const result = await new Promise<ConnectResult>((resolve) => {
     const proc = spawn(cli, ["-s", "connect", opts.profile]);
     const chunks: string[] = [];
 
     proc.stdout.on("data", (d: Buffer) => chunks.push(d.toString()));
     proc.stderr.on("data", (d: Buffer) => chunks.push(d.toString()));
 
-    // Build stdin input: username\npassword\n[secondPassword\n]y\n
     if (opts.username && opts.password) {
       const lines = [opts.username, opts.password];
       if (opts.secondPassword) lines.push(opts.secondPassword);
@@ -156,6 +193,13 @@ export async function connectVpn(opts: ConnectOptions): Promise<ConnectResult> {
     });
     proc.on("error", (err) => resolve({ success: false, output: err.message }));
   });
+
+  // GUI を再起動して接続状態を反映
+  if (guiWasRunning) {
+    await launchGui();
+  }
+
+  return result;
 }
 
 /**
