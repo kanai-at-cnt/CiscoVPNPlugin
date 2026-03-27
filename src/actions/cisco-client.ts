@@ -1,5 +1,6 @@
-import { execFile } from "child_process";
+import { execFile, spawn } from "child_process";
 import { promisify } from "util";
+import { access } from "fs/promises";
 
 const execFileAsync = promisify(execFile);
 
@@ -21,8 +22,7 @@ export interface VpnState {
 /**
  * Find the Cisco Secure Client CLI binary
  */
-async function findVpnCli(): Promise<string | null> {
-  const { access } = await import("fs/promises");
+export async function findVpnCli(): Promise<string | null> {
   for (const path of VPN_CLI_PATHS) {
     try {
       await access(path);
@@ -64,36 +64,69 @@ function parseStatus(output: string): VpnState {
  */
 export async function getVpnStatus(): Promise<VpnState> {
   const cli = await findVpnCli();
-  if (!cli) {
-    return { status: "unknown" };
-  }
+  if (!cli) return { status: "unknown" };
 
   try {
     const { stdout } = await execFileAsync(cli, ["status"]);
     return parseStatus(stdout);
   } catch (err: unknown) {
-    // vpn status can exit with non-zero when disconnected
+    // vpn status can exit non-zero when disconnected
     const error = err as { stdout?: string };
-    if (error.stdout) {
-      return parseStatus(error.stdout);
-    }
+    if (error.stdout) return parseStatus(error.stdout);
     return { status: "unknown" };
   }
 }
 
 /**
- * Connect to VPN using specified profile
+ * List available VPN profiles via `vpn hosts`
  */
-export async function connectVpn(profile: string): Promise<boolean> {
+export async function listProfiles(): Promise<string[]> {
+  const cli = await findVpnCli();
+  if (!cli) return [];
+
+  try {
+    const { stdout } = await execFileAsync(cli, ["hosts"]);
+    return stdout
+      .split("\n")
+      .map((line) => line.trim())
+      .filter((line) => line && !line.startsWith(">") && !line.toLowerCase().includes("host"));
+  } catch {
+    return [];
+  }
+}
+
+export interface ConnectOptions {
+  profile: string;
+  username?: string;
+  password?: string;
+  /** Second password / MFA token (e.g. TOTP) */
+  secondPassword?: string;
+}
+
+/**
+ * Connect to VPN.
+ * If username/password are provided, they are piped via stdin (-s mode).
+ * For certificate-based or saved-credential profiles, leave them empty.
+ */
+export async function connectVpn(opts: ConnectOptions): Promise<boolean> {
   const cli = await findVpnCli();
   if (!cli) return false;
 
-  try {
-    await execFileAsync(cli, ["-s", "connect", profile]);
-    return true;
-  } catch {
-    return false;
-  }
+  return new Promise((resolve) => {
+    const proc = spawn(cli, ["-s", "connect", opts.profile]);
+
+    // Build stdin input: username\npassword\n[secondPassword\n]y\n
+    if (opts.username && opts.password) {
+      const lines = [opts.username, opts.password];
+      if (opts.secondPassword) lines.push(opts.secondPassword);
+      lines.push("y"); // accept banner
+      proc.stdin.write(lines.join("\n") + "\n");
+    }
+    proc.stdin.end();
+
+    proc.on("close", (code) => resolve(code === 0));
+    proc.on("error", () => resolve(false));
+  });
 }
 
 /**

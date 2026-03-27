@@ -21,6 +21,7 @@
         margin-bottom: 4px;
       }
       input[type="text"],
+      input[type="password"],
       input[type="number"] {
         width: 100%;
         background: #2a2a2a;
@@ -36,6 +37,15 @@
         color: #666;
         margin-top: 4px;
       }
+      .section-title {
+        font-size: 11px;
+        color: #666;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin: 16px 0 8px;
+        border-bottom: 1px solid #333;
+        padding-bottom: 4px;
+      }
     </style>
     <script src="https://cdn.jsdelivr.net/gh/nickcoutsos/streamdeck-javascript-sdk/js/libs/property-inspector.min.js"></script>
   </head>
@@ -48,8 +58,25 @@
     <div class="form-group">
       <label for="pollInterval">Poll Interval (seconds)</label>
       <input type="number" id="pollInterval" value="5" min="1" max="60" />
-      <div class="hint">How often to check VPN status</div>
     </div>
+
+    <div class="section-title">Credentials (optional)</div>
+    <div class="hint" style="margin-bottom:8px">Leave blank if using saved credentials or certificate auth</div>
+
+    <div class="form-group">
+      <label for="username">Username</label>
+      <input type="text" id="username" placeholder="username" autocomplete="off" />
+    </div>
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input type="password" id="password" placeholder="password" autocomplete="off" />
+    </div>
+    <div class="form-group">
+      <label for="secondPassword">MFA / Second Password</label>
+      <input type="password" id="secondPassword" placeholder="TOTP or push" autocomplete="off" />
+      <div class="hint">Leave blank if MFA is not required</div>
+    </div>
+
     <script>
       const $PI = connectElgatoStreamDeckSocket(
         "{{port}}",
@@ -60,20 +87,27 @@
       );
 
       $PI.on("connected", (jsn) => {
-        const settings = jsn.actionInfo.payload.settings;
-        document.getElementById("profile").value = settings.profile ?? "";
-        document.getElementById("pollInterval").value = settings.pollInterval ?? 5;
+        const s = jsn.actionInfo.payload.settings;
+        document.getElementById("profile").value = s.profile ?? "";
+        document.getElementById("pollInterval").value = s.pollInterval ?? 5;
+        document.getElementById("username").value = s.username ?? "";
+        document.getElementById("password").value = s.password ?? "";
+        document.getElementById("secondPassword").value = s.secondPassword ?? "";
       });
 
       function save() {
         $PI.setSettings({
           profile: document.getElementById("profile").value.trim(),
           pollInterval: parseInt(document.getElementById("pollInterval").value) || 5,
+          username: document.getElementById("username").value.trim(),
+          password: document.getElementById("password").value,
+          secondPassword: document.getElementById("secondPassword").value,
         });
       }
 
-      document.getElementById("profile").addEventListener("change", save);
-      document.getElementById("pollInterval").addEventListener("change", save);
+      ["profile", "pollInterval", "username", "password", "secondPassword"].forEach((id) => {
+        document.getElementById(id).addEventListener("change", save);
+      });
     </script>
   </body>
 </html>

@@ -9,6 +9,9 @@ import { getVpnStatus, connectVpn, disconnectVpn } from "./cisco-client";
 
 type StatusSettings = {
   profile?: string;
+  username?: string;
+  password?: string;
+  secondPassword?: string;
   pollInterval?: number;
 };
 
@@ -44,7 +47,7 @@ export class VpnStatusAction extends SingletonAction<StatusSettings> {
   }
 
   override async onTouchTap(ev: TouchTapEvent<StatusSettings>): Promise<void> {
-    const { profile = "" } = ev.payload.settings;
+    const { profile = "", username, password, secondPassword } = ev.payload.settings;
     const state = await getVpnStatus();
 
     if (state.status === "connected") {
@@ -54,7 +57,7 @@ export class VpnStatusAction extends SingletonAction<StatusSettings> {
         await ev.action.setFeedback({ title: "Set Profile" });
         return;
       }
-      await connectVpn(profile);
+      await connectVpn({ profile, username, password, secondPassword });
     }
 
     await new Promise((r) => setTimeout(r, 2000));

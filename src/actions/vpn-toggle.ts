@@ -8,6 +8,9 @@ import { getVpnStatus, connectVpn, disconnectVpn } from "./cisco-client";
 
 type ToggleSettings = {
   profile?: string;
+  username?: string;
+  password?: string;
+  secondPassword?: string;
 };
 
 /**
@@ -35,7 +38,7 @@ export class VpnToggleAction extends SingletonAction<ToggleSettings> {
   }
 
   override async onKeyDown(ev: KeyDownEvent<ToggleSettings>): Promise<void> {
-    const { profile = "" } = ev.payload.settings;
+    const { profile = "", username, password, secondPassword } = ev.payload.settings;
     const state = await getVpnStatus();
 
     if (state.status === "connected") {
@@ -45,7 +48,7 @@ export class VpnToggleAction extends SingletonAction<ToggleSettings> {
         await ev.action.setTitle("No Profile");
         return;
       }
-      await connectVpn(profile);
+      await connectVpn({ profile, username, password, secondPassword });
     }
 
     // Wait briefly then update state
