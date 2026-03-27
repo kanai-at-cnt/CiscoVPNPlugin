@@ -42,16 +42,17 @@ function parseStatus(output: string): VpnState {
   const isConnected =
     output.toLowerCase().includes("connected") ||
     output.includes("接続済み") ||
-    output.includes("接続されました");
+    output.includes("接続されました") ||
+    output.includes("接続中"); // Cisco日本語CLIでは接続済み状態を「接続中」と表示する
 
   const isDisconnected =
     output.toLowerCase().includes("disconnected") ||
     output.includes("切断されました") ||
-    output.includes("切断済み");
+    output.includes("切断済み") ||
+    output.includes("接続する準備ができました");
 
   const isConnecting =
-    output.toLowerCase().includes("connecting") ||
-    output.includes("接続中");
+    output.toLowerCase().includes("connecting");
 
   if (isConnected && !isDisconnected) {
     const serverMatch = output.match(/Server\s*:\s*(.+)/i);
