@@ -35,12 +35,28 @@ export async function findVpnCli(): Promise<string | null> {
 }
 
 /**
- * Parse the output of `vpn status` command
+ * Parse the output of `vpn status` command (handles English and Japanese output)
  */
 function parseStatus(output: string): VpnState {
   const lower = output.toLowerCase();
 
-  if (lower.includes("connected") && !lower.includes("disconnected")) {
+  const isConnected =
+    lower.includes("connected") ||
+    output.includes("接続済み") ||
+    output.includes("接続されました");
+
+  const isDisconnected =
+    lower.includes("disconnected") ||
+    lower.includes("not connected") ||
+    output.includes("切断されました") ||
+    output.includes("切断済み");
+
+  const isConnecting =
+    lower.includes("connecting") ||
+    output.includes("接続中") ||
+    output.includes("接続しています");
+
+  if (isConnected && !isDisconnected) {
     const profileMatch = output.match(/Profile\s*:\s*(.+)/i);
     const serverMatch = output.match(/Server\s*:\s*(.+)/i);
     const durationMatch = output.match(/Duration\s*:\s*(.+)/i);
@@ -50,9 +66,9 @@ function parseStatus(output: string): VpnState {
       serverAddress: serverMatch?.[1]?.trim(),
       duration: durationMatch?.[1]?.trim(),
     };
-  } else if (lower.includes("connecting")) {
+  } else if (isConnecting) {
     return { status: "connecting" };
-  } else if (lower.includes("disconnected") || lower.includes("not connected")) {
+  } else if (isDisconnected) {
     return { status: "disconnected" };
   }
 
