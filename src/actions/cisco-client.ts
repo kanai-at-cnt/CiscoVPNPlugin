@@ -166,10 +166,16 @@ export async function connectVpn(opts: ConnectOptions): Promise<ConnectResult> {
   const cli = await findVpnCli();
   if (!cli) return { success: false, output: "CLI not found" };
 
+  if (!opts.username || !opts.password) {
+    return { success: false, output: "No credentials: set Username and Password in settings" };
+  }
+
   // GUI が動いていたら終了する
   const guiWasRunning = await isGuiRunning();
   if (guiWasRunning) {
     await quitGui();
+    // vpnagentd が GUI なしで接続を受け付けるまで待つ
+    await new Promise((r) => setTimeout(r, 3000));
   }
 
   const result = await new Promise<ConnectResult>((resolve) => {
@@ -179,12 +185,10 @@ export async function connectVpn(opts: ConnectOptions): Promise<ConnectResult> {
     proc.stdout.on("data", (d: Buffer) => chunks.push(d.toString()));
     proc.stderr.on("data", (d: Buffer) => chunks.push(d.toString()));
 
-    if (opts.username && opts.password) {
-      const lines = [opts.username, opts.password];
-      if (opts.secondPassword) lines.push(opts.secondPassword);
-      lines.push("y"); // accept banner
-      proc.stdin.write(lines.join("\n") + "\n");
-    }
+    const lines = [opts.username!, opts.password!];
+    if (opts.secondPassword) lines.push(opts.secondPassword);
+    lines.push("y"); // accept banner
+    proc.stdin.write(lines.join("\n") + "\n");
     proc.stdin.end();
 
     proc.on("close", (code) => {
@@ -194,7 +198,7 @@ export async function connectVpn(opts: ConnectOptions): Promise<ConnectResult> {
     proc.on("error", (err) => resolve({ success: false, output: err.message }));
   });
 
-  // GUI を再起動して接続状態を反映
+  // GUI を再起動して接続状態を反映 (接続成功/失敗に関わらず)
   if (guiWasRunning) {
     await launchGui();
   }

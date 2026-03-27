@@ -60,10 +60,12 @@ export class VpnToggleAction extends SingletonAction<ToggleSettings> {
       logger.info(`Connect output: ${result.output}`);
 
       if (!result.success) {
-        await ev.action.setTitle("Error");
+        // エラーの最後の行をボタンに表示 (短縮)
+        const lastLine = result.output.split("\n").filter(Boolean).pop() ?? "Error";
+        const shortMsg = lastLine.replace(/^.*error:\s*/i, "").slice(0, 30);
+        await ev.action.setTitle(shortMsg || "Error");
         logger.error(`Connect failed: ${result.output}`);
-        // Show error for 3 seconds then revert to actual state
-        await new Promise((r) => setTimeout(r, 3000));
+        await new Promise((r) => setTimeout(r, 4000));
       }
     }
 
