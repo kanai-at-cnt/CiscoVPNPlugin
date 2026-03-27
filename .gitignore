@@ -1,0 +1,4 @@
+node_modules/
+com.kanai.ciscovpn.sdPlugin/bin/
+*.js.map
+.DS_Store

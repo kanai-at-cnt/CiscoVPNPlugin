@@ -1,0 +1,72 @@
+{
+  "Name": "Cisco VPN",
+  "Version": "0.1.0",
+  "Author": "kanai",
+  "Description": "Control Cisco Secure Client VPN from Stream Deck+",
+  "Category": "Cisco VPN",
+  "CategoryIcon": "imgs/plugin/category-icon",
+  "CodePath": "bin/plugin.js",
+  "Icon": "imgs/plugin/marketplace",
+  "SDKVersion": 2,
+  "Software": {
+    "MinimumVersion": "6.4"
+  },
+  "OS": [
+    {
+      "Platform": "mac",
+      "MinimumVersion": "10.15"
+    }
+  ],
+  "Nodejs": {
+    "Version": "20",
+    "Debug": "enabled"
+  },
+  "Actions": [
+    {
+      "Name": "VPN Toggle",
+      "UUID": "com.kanai.ciscovpn.toggle",
+      "Icon": "imgs/actions/toggle/action",
+      "Tooltip": "Connect or disconnect Cisco Secure Client VPN",
+      "SupportedInMultiActions": true,
+      "Controllers": ["Keypad"],
+      "States": [
+        {
+          "Image": "imgs/actions/toggle/disconnected",
+          "Title": "VPN Off",
+          "TitleAlignment": "bottom",
+          "FontSize": "11"
+        },
+        {
+          "Image": "imgs/actions/toggle/connected",
+          "Title": "VPN On",
+          "TitleAlignment": "bottom",
+          "FontSize": "11"
+        }
+      ],
+      "PropertyInspectorPath": "pi/toggle.html"
+    },
+    {
+      "Name": "VPN Status",
+      "UUID": "com.kanai.ciscovpn.status",
+      "Icon": "imgs/actions/status/action",
+      "Tooltip": "Show Cisco Secure Client VPN connection status",
+      "SupportedInMultiActions": false,
+      "Controllers": ["Keypad", "Encoder"],
+      "Encoder": {
+        "layout": "$X1",
+        "TriggerDescription": {
+          "Rotate": "Adjust",
+          "Push": "Refresh Status",
+          "Touch": "Toggle VPN",
+          "LongTouch": "Disconnect"
+        }
+      },
+      "States": [
+        {
+          "Image": "imgs/actions/status/action"
+        }
+      ],
+      "PropertyInspectorPath": "pi/status.html"
+    }
+  ]
+}

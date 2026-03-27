@@ -1,0 +1,20 @@
+{
+  "name": "ciscovpn",
+  "version": "0.1.0",
+  "description": "Stream Deck+ plugin for Cisco Secure Client VPN control",
+  "scripts": {
+    "build": "rollup -c --environment NODE_ENV:production",
+    "watch": "rollup -c -w",
+    "link-plugin": "streamdeck link com.kanai.ciscovpn.sdPlugin"
+  },
+  "devDependencies": {
+    "@elgato/rollup-plugin-streamdeck": "latest",
+    "@elgato/streamdeck": "latest",
+    "@rollup/plugin-commonjs": "latest",
+    "@rollup/plugin-node-resolve": "latest",
+    "@rollup/plugin-typescript": "latest",
+    "rollup": "latest",
+    "tslib": "latest",
+    "typescript": "latest"
+  }
+}

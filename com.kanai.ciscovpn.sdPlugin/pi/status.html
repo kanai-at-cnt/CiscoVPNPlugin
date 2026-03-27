@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Cisco VPN - Status</title>
+    <style>
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        color: #e8e8e8;
+        background: transparent;
+        padding: 8px;
+        margin: 0;
+      }
+      .form-group {
+        margin-bottom: 12px;
+      }
+      label {
+        display: block;
+        font-size: 12px;
+        color: #a0a0a0;
+        margin-bottom: 4px;
+      }
+      input[type="text"],
+      input[type="number"] {
+        width: 100%;
+        background: #2a2a2a;
+        border: 1px solid #444;
+        border-radius: 4px;
+        color: #e8e8e8;
+        padding: 6px 8px;
+        box-sizing: border-box;
+        font-size: 13px;
+      }
+      .hint {
+        font-size: 11px;
+        color: #666;
+        margin-top: 4px;
+      }
+    </style>
+    <script src="https://cdn.jsdelivr.net/gh/nickcoutsos/streamdeck-javascript-sdk/js/libs/property-inspector.min.js"></script>
+  </head>
+  <body>
+    <div class="form-group">
+      <label for="profile">VPN Profile Name</label>
+      <input type="text" id="profile" placeholder="e.g. Corporate VPN" />
+      <div class="hint">Used when tapping touch screen to connect</div>
+    </div>
+    <div class="form-group">
+      <label for="pollInterval">Poll Interval (seconds)</label>
+      <input type="number" id="pollInterval" value="5" min="1" max="60" />
+      <div class="hint">How often to check VPN status</div>
+    </div>
+    <script>
+      const $PI = connectElgatoStreamDeckSocket(
+        "{{port}}",
+        "{{propertyInspectorUUID}}",
+        "{{registerEvent}}",
+        "{{info}}",
+        "{{actionInfo}}"
+      );
+
+      $PI.on("connected", (jsn) => {
+        const settings = jsn.actionInfo.payload.settings;
+        document.getElementById("profile").value = settings.profile ?? "";
+        document.getElementById("pollInterval").value = settings.pollInterval ?? 5;
+      });
+
+      function save() {
+        $PI.setSettings({
+          profile: document.getElementById("profile").value.trim(),
+          pollInterval: parseInt(document.getElementById("pollInterval").value) || 5,
+        });
+      }
+
+      document.getElementById("profile").addEventListener("change", save);
+      document.getElementById("pollInterval").addEventListener("change", save);
+    </script>
+  </body>
+</html>
