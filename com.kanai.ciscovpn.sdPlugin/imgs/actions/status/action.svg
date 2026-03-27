@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72" width="72" height="72">
+  <!-- Background -->
+  <rect width="72" height="72" rx="8" fill="#1B1B1B"/>
+
+  <!-- Shield (neutral blue) -->
+  <path d="M36 8 L54 15 L54 36 C54 49 45 58 36 62 C27 58 18 49 18 36 L18 15 Z"
+        fill="#1565C0" stroke="#1E88E5" stroke-width="1.5"/>
+
+  <!-- Signal bars (status indicator) -->
+  <rect x="24" y="42" width="5" height="8"  rx="1.5" fill="white" opacity="0.5"/>
+  <rect x="32" y="36" width="5" height="14" rx="1.5" fill="white" opacity="0.75"/>
+  <rect x="40" y="29" width="5" height="21" rx="1.5" fill="white" opacity="1"/>
+</svg>
