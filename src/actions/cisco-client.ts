@@ -119,17 +119,27 @@ export interface ConnectOptions {
   secondPassword?: string;
 }
 
+export interface ConnectResult {
+  success: boolean;
+  output: string;
+}
+
 /**
  * Connect to VPN.
  * If username/password are provided, they are piped via stdin (-s mode).
  * For certificate-based or saved-credential profiles, leave them empty.
+ * Returns full CLI output for debugging.
  */
-export async function connectVpn(opts: ConnectOptions): Promise<boolean> {
+export async function connectVpn(opts: ConnectOptions): Promise<ConnectResult> {
   const cli = await findVpnCli();
-  if (!cli) return false;
+  if (!cli) return { success: false, output: "CLI not found" };
 
   return new Promise((resolve) => {
     const proc = spawn(cli, ["-s", "connect", opts.profile]);
+    const chunks: string[] = [];
+
+    proc.stdout.on("data", (d: Buffer) => chunks.push(d.toString()));
+    proc.stderr.on("data", (d: Buffer) => chunks.push(d.toString()));
 
     // Build stdin input: username\npassword\n[secondPassword\n]y\n
     if (opts.username && opts.password) {
@@ -140,8 +150,11 @@ export async function connectVpn(opts: ConnectOptions): Promise<boolean> {
     }
     proc.stdin.end();
 
-    proc.on("close", (code) => resolve(code === 0));
-    proc.on("error", () => resolve(false));
+    proc.on("close", (code) => {
+      const output = chunks.join("").trim();
+      resolve({ success: code === 0, output });
+    });
+    proc.on("error", (err) => resolve({ success: false, output: err.message }));
   });
 }
 
