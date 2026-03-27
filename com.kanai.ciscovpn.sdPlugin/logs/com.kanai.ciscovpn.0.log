@@ -1,65 +1,17 @@
-2026-03-27T07:53:55.893Z INFO  VpnToggle: Current state: disconnected
-2026-03-27T07:53:55.895Z INFO  VpnToggle: Connecting to: vpn.azg.jp/a-net_v2
-2026-03-27T07:54:09.719Z INFO  VpnToggle: Connect: 接続ボタンをクリックしました
-2026-03-27T07:54:13.210Z INFO  VpnToggle: Poll 1: connecting
-2026-03-27T07:54:16.487Z INFO  VpnToggle: Poll 2: connecting
-2026-03-27T07:54:19.742Z INFO  VpnToggle: Poll 3: connecting
-2026-03-27T07:54:23.111Z INFO  VpnToggle: Poll 4: connecting
-2026-03-27T07:54:26.388Z INFO  VpnToggle: Poll 5: connecting
-2026-03-27T07:54:52.576Z INFO  VpnToggle: Current state: connecting
-2026-03-27T07:54:52.577Z INFO  VpnToggle: Connecting to: vpn.azg.jp/a-net_v2
-2026-03-27T07:54:53.529Z INFO  VpnToggle: Connect: Error: 256:273: execution error: System Eventsでエラーが起きました: button "接続" of window "Ciscoセキュアクライアント" of process "Cisco Secure Client"を取り出すことはできません。 (-1728)
-2026-03-27T07:54:53.534Z ERROR VpnToggle: Connect failed: Error: 256:273: execution error: System Eventsでエラーが起きました: button "接続" of window "Ciscoセキュアクライアント" of process "Cisco Secure Client"を取り出すことはできません。 (-1728)
-2026-03-27T07:55:00.703Z INFO  VpnToggle: Poll 1: connecting
-2026-03-27T07:55:04.043Z INFO  VpnToggle: Poll 2: connecting
-2026-03-27T07:55:07.299Z INFO  VpnToggle: Poll 3: connecting
-2026-03-27T07:55:07.879Z INFO  VpnToggle: Current state: connecting
-2026-03-27T07:55:07.881Z INFO  VpnToggle: Connecting to: vpn.azg.jp/a-net_v2
-2026-03-27T07:55:08.847Z INFO  VpnToggle: Connect: Error: 256:273: execution error: System Eventsでエラーが起きました: button "接続" of window "Ciscoセキュアクライアント" of process "Cisco Secure Client"を取り出すことはできません。 (-1728)
-2026-03-27T07:55:08.856Z ERROR VpnToggle: Connect failed: Error: 256:273: execution error: System Eventsでエラーが起きました: button "接続" of window "Ciscoセキュアクライアント" of process "Cisco Secure Client"を取り出すことはできません。 (-1728)
-2026-03-27T07:55:10.532Z INFO  VpnToggle: Poll 4: connecting
-2026-03-27T07:55:13.812Z INFO  VpnToggle: Poll 5: disconnected
-2026-03-27T07:55:16.004Z INFO  VpnToggle: Poll 1: disconnected
-2026-03-27T07:56:28.360Z INFO  VpnToggle: Current state: disconnected
-2026-03-27T07:56:28.362Z INFO  VpnToggle: Connecting to: vpn.azg.jp/a-net_v2
-2026-03-27T07:56:29.319Z INFO  VpnToggle: Connect: 接続ボタンをクリックしました
-2026-03-27T07:56:32.459Z INFO  VpnToggle: Poll 1: connecting
-2026-03-27T07:56:35.740Z INFO  VpnToggle: Poll 2: connecting
-2026-03-27T07:56:39.033Z INFO  VpnToggle: Poll 3: connecting
-2026-03-27T07:56:40.476Z INFO  VpnToggle: Current state: connecting
-2026-03-27T07:56:40.478Z INFO  VpnToggle: Connecting to: vpn.azg.jp/a-net_v2
-2026-03-27T07:56:41.424Z INFO  VpnToggle: Connect: Error: 256:273: execution error: System Eventsでエラーが起きました: button "接続" of window "Ciscoセキュアクライアント" of process "Cisco Secure Client"を取り出すことはできません。 (-1728)
-2026-03-27T07:56:41.429Z ERROR VpnToggle: Connect failed: Error: 256:273: execution error: System Eventsでエラーが起きました: button "接続" of window "Ciscoセキュアクライアント" of process "Cisco Secure Client"を取り出すことはできません。 (-1728)
-2026-03-27T07:56:42.282Z INFO  VpnToggle: Poll 4: connecting
-2026-03-27T07:56:45.530Z INFO  VpnToggle: Poll 5: connecting
-2026-03-27T07:56:48.588Z INFO  VpnToggle: Poll 1: connecting
-2026-03-27T07:56:51.872Z INFO  VpnToggle: Poll 2: connecting
-2026-03-27T07:56:55.083Z INFO  VpnToggle: Poll 3: connecting
-2026-03-27T07:56:58.331Z INFO  VpnToggle: Poll 4: connecting
-2026-03-27T07:57:01.602Z INFO  VpnToggle: Poll 5: connecting
-2026-03-27T07:58:16.722Z INFO  VpnToggle: Current state: connecting
-2026-03-27T07:58:16.724Z INFO  VpnToggle: Connecting to: vpn.azg.jp/a-net_v2
-2026-03-27T07:58:17.676Z INFO  VpnToggle: Connect: Error: 256:273: execution error: System Eventsでエラーが起きました: button "接続" of window "Ciscoセキュアクライアント" of process "Cisco Secure Client"を取り出すことはできません。 (-1728)
-2026-03-27T07:58:17.683Z ERROR VpnToggle: Connect failed: Error: 256:273: execution error: System Eventsでエラーが起きました: button "接続" of window "Ciscoセキュアクライアント" of process "Cisco Secure Client"を取り出すことはできません。 (-1728)
-2026-03-27T07:58:24.855Z INFO  VpnToggle: Poll 1: connecting
-2026-03-27T07:58:28.120Z INFO  VpnToggle: Poll 2: connecting
-2026-03-27T07:58:31.362Z INFO  VpnToggle: Poll 3: connecting
-2026-03-27T07:58:34.638Z INFO  VpnToggle: Poll 4: connecting
-2026-03-27T07:58:37.899Z INFO  VpnToggle: Poll 5: connecting
-2026-03-27T07:58:56.907Z INFO  VpnToggle: Current state: disconnected
-2026-03-27T07:58:56.909Z INFO  VpnToggle: Connecting to: vpn.azg.jp/a-net_v2
-2026-03-27T07:58:57.943Z INFO  VpnToggle: Connect: 接続ボタンをクリックしました
-2026-03-27T07:59:01.125Z INFO  VpnToggle: Poll 1: connecting
-2026-03-27T07:59:04.403Z INFO  VpnToggle: Poll 2: connecting
-2026-03-27T07:59:07.666Z INFO  VpnToggle: Poll 3: connecting
-2026-03-27T07:59:09.885Z INFO  VpnToggle: Current state: connecting
-2026-03-27T07:59:09.886Z INFO  VpnToggle: Connecting to: vpn.azg.jp/a-net_v2
-2026-03-27T07:59:10.819Z INFO  VpnToggle: Connect: Error: 256:273: execution error: System Eventsでエラーが起きました: button "接続" of window "Ciscoセキュアクライアント" of process "Cisco Secure Client"を取り出すことはできません。 (-1728)
-2026-03-27T07:59:10.824Z ERROR VpnToggle: Connect failed: Error: 256:273: execution error: System Eventsでエラーが起きました: button "接続" of window "Ciscoセキュアクライアント" of process "Cisco Secure Client"を取り出すことはできません。 (-1728)
-2026-03-27T07:59:10.964Z INFO  VpnToggle: Poll 4: connecting
-2026-03-27T07:59:14.250Z INFO  VpnToggle: Poll 5: connecting
-2026-03-27T07:59:18.017Z INFO  VpnToggle: Poll 1: connecting
-2026-03-27T07:59:21.283Z INFO  VpnToggle: Poll 2: connecting
-2026-03-27T07:59:24.533Z INFO  VpnToggle: Poll 3: connecting
-2026-03-27T07:59:27.772Z INFO  VpnToggle: Poll 4: connecting
-2026-03-27T07:59:31.010Z INFO  VpnToggle: Poll 5: connecting
+2026-03-27T08:02:27.585Z INFO  VpnToggle: Current state: connected
+2026-03-27T08:02:28.551Z INFO  VpnToggle: Disconnect: 切断ボタンをクリックしました
+2026-03-27T08:02:31.742Z INFO  VpnToggle: Poll 1: disconnected
+2026-03-27T08:02:38.140Z INFO  VpnToggle: Current state: disconnected
+2026-03-27T08:02:38.141Z INFO  VpnToggle: Connecting to: vpn.azg.jp/a-net_v2
+2026-03-27T08:02:39.169Z INFO  VpnToggle: Connect: 接続ボタンをクリックしました
+2026-03-27T08:02:42.374Z INFO  VpnToggle: Poll 1: connected
+2026-03-27T08:02:49.609Z INFO  VpnToggle: Current state: connected
+2026-03-27T08:02:50.676Z INFO  VpnToggle: Disconnect: 切断ボタンをクリックしました
+2026-03-27T08:02:53.840Z INFO  VpnToggle: Poll 1: disconnected
+2026-03-27T08:03:37.596Z INFO  VpnToggle: Current state: disconnected
+2026-03-27T08:03:37.599Z INFO  VpnToggle: Connecting to: vpn.azg.jp/a-net_v2
+2026-03-27T08:03:38.634Z INFO  VpnToggle: Connect: 接続ボタンをクリックしました
+2026-03-27T08:03:41.798Z INFO  VpnToggle: Poll 1: connected
+2026-03-27T08:06:59.724Z INFO  VpnToggle: Current state: connected
+2026-03-27T08:07:00.761Z INFO  VpnToggle: Disconnect: 切断ボタンをクリックしました
+2026-03-27T08:07:03.883Z INFO  VpnToggle: Poll 1: disconnected
