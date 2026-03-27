@@ -1,6 +1,7 @@
 {
   "Name": "Cisco VPN",
-  "Version": "0.1.0",
+  "Version": "0.1.0.0",
+  "UUID": "com.kanai.ciscovpn",
   "Author": "kanai",
   "Description": "Control Cisco Secure Client VPN from Stream Deck+",
   "Category": "Cisco VPN",
@@ -28,19 +29,21 @@
       "Icon": "imgs/actions/toggle/action",
       "Tooltip": "Connect or disconnect Cisco Secure Client VPN",
       "SupportedInMultiActions": true,
-      "Controllers": ["Keypad"],
+      "Controllers": [
+        "Keypad"
+      ],
       "States": [
         {
           "Image": "imgs/actions/toggle/disconnected",
           "Title": "VPN Off",
           "TitleAlignment": "bottom",
-          "FontSize": "11"
+          "FontSize": 11
         },
         {
           "Image": "imgs/actions/toggle/connected",
           "Title": "VPN On",
           "TitleAlignment": "bottom",
-          "FontSize": "11"
+          "FontSize": 11
         }
       ],
       "PropertyInspectorPath": "pi/toggle.html"
@@ -51,7 +54,10 @@
       "Icon": "imgs/actions/status/action",
       "Tooltip": "Show Cisco Secure Client VPN connection status",
       "SupportedInMultiActions": false,
-      "Controllers": ["Keypad", "Encoder"],
+      "Controllers": [
+        "Keypad",
+        "Encoder"
+      ],
       "Encoder": {
         "layout": "$X1",
         "TriggerDescription": {

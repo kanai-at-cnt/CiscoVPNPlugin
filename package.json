@@ -6,7 +6,8 @@
   "scripts": {
     "build": "rollup -c",
     "watch": "rollup -c -w",
-    "link-plugin": "streamdeck link com.kanai.ciscovpn.sdPlugin"
+    "link-plugin": "streamdeck link com.kanai.ciscovpn.sdPlugin",
+    "pack": "npm run build && streamdeck pack com.kanai.ciscovpn.sdPlugin --output . --force"
   },
   "dependencies": {
     "@elgato/streamdeck": "latest"
